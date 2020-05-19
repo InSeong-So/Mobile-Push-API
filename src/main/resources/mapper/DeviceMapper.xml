@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sis.api.push.mapper.DeviceMapper">
+    <select id="selectDevices" parameterType="string" resultType="DeviceVO">
+      <![CDATA[
+       SELECT UUID, TOKEN , OS , AGRDT , RCVYN , APPID , MBRID FROM TB_DEVICE WHERE APPID = #{appid}
+      ]]>
+    </select>
+    
+    <select id="selectDevice" parameterType="map" resultType="DeviceVO">
+      <![CDATA[
+       SELECT UUID, TOKEN , OS , AGRDT , RCVYN , APPID , MBRID FROM TB_DEVICE WHERE APPID = #{appid} AND MBRID = #{mbr_id}
+      ]]>
+    </select>
+    
+    <select id="selectDeviceByUUID" parameterType="map" resultType="DeviceVO">
+      <![CDATA[
+       SELECT UUID, TOKEN , OS , AGRDT , RCVYN , APPID , MBRID FROM TB_DEVICE WHERE APPID = #{appid} AND UUID = #{uuid}
+      ]]>
+    </select>
+    
+    <select id="selectApiKey" parameterType="string" resultType="AppInfoVO">
+     <![CDATA[
+       SELECT * FROM APPINFO WHERE APPID = #{appid}
+     ]]>
+    </select>
+    
+    <insert id="insertDevice" parameterType="DeviceVO">
+      <![CDATA[
+         INSERT INTO TB_DEVICE(UUID , TOKEN , OS , AGRDT , RCVYN , APPID , MBRID) 
+                VALUES(#{UUID} , #{TOKEN} , #{OS} ,  CURRENT_TIMESTAMP  , #{RCVYN} , #{APPID} , #{MBRID})
+                ON DUPLICATE KEY UPDATE 
+                TOKEN = #{TOKEN}
+      ]]>
+    </insert>
+    
+    <update id="updateAgree" parameterType="map">
+      <![CDATA[
+        UPDATE TB_DEVICE SET RCVYN = #{rcvyn} , AGRDT = CURRENT_TIMESTAMP WHERE UUID = #{uuid} AND APPID = #{appid}
+      ]]>
+    </update>
+    
+    <update id="updateMember" parameterType="map">
+      <![CDATA[
+        UPDATE TB_DEVICE SET MBRID = #{mbrid} WHERE UUID = #{uuid} AND APPID = #{appid}
+      ]]>
+    </update>
+    
+</mapper>
