@@ -22,20 +22,24 @@
 
 ### XMPP 메시징과 HTTP 메시징의 차이점
 - 업스트림/다운스트림 메시지
-HTTP: 클라우드에서 기기로 전송하는 다운스트림 전용
-XMPP: 기기에서 클라우드로 전송하는 업스트림 및 클라우드에서 기기로 전송하는 다운스트림
+  - HTTP: 클라우드에서 기기로 전송하는 다운스트림 전용
+  - XMPP: 기기에서 클라우드로 전송하는 업스트림 및 클라우드에서 기기로 전송하는 다운스트림
+
 - 메시징(동기 또는 비동기)
-HTTP: 동기 메시징입니다. 앱 서버가 HTTP POST 요청으로 메시지를 보내고 응답을 기다립니다. 이 방식은 동기 메시징이며 응답이 수신될 때까지 발신자가 다른 메시지를 보내지 못하도록 차단합니다.
-XMPP: 비동기 메시징입니다. 앱 서버가 영구 XMPP 연결을 통해 최대 회선 속도로 모든 기기에서 양방향으로 메시지를 주고받습니다. XMPP 연결 서버가 확인 또는 실패 알림을 비동기 방식으로 보냅니다. 확인 형식은 JSON으로 인코딩된 특수한 ACK 및 NACK XMPP 메시지입니다.
+  - HTTP: 동기 메시징입니다. 앱 서버가 HTTP POST 요청으로 메시지를 보내고 응답을 기다립니다. 이 방식은 동기 메시징이며 응답이 수신될 때까지 발신자가 다른 메시지를 보내지 못하도록 차단합니다.
+  - XMPP: 비동기 메시징입니다. 앱 서버가 영구 XMPP 연결을 통해 최대 회선 속도로 모든 기기에서 양방향으로 메시지를 주고받습니다. XMPP 연결 서버가 확인 또는 실패 알림을 비동기 방식으로 보냅니다. 확인 형식은 JSON으로 인코딩된 특수한 ACK 및 NACK XMPP 메시지입니다.
+
 - JSON
-HTTP: JSON 메시지는 HTTP POST로 전송됩니다.
-XMPP: JSON 메시지는 XMPP 메시지에 캡슐화됩니다.
+  - HTTP: JSON 메시지는 HTTP POST로 전송됩니다.
+  - XMPP: JSON 메시지는 XMPP 메시지에 캡슐화됩니다.
+
 - 일반 텍스트
-HTTP: 일반 텍스트 메시지는 HTTP POST로 전송됩니다.
-XMPP: 지원되지 않습니다.
+  - HTTP: 일반 텍스트 메시지는 HTTP POST로 전송됩니다.
+  - XMPP: 지원되지 않습니다.
+
 - 여러 등록 토큰에 전송되는 멀티캐스트 다운스트림
-HTTP: JSON 메시지 형식으로 지원됩니다.
-XMPP: 지원되지 않습니다.
+  - HTTP: JSON 메시지 형식으로 지원됩니다.
+  - XMPP: 지원되지 않습니다.
 
 <hr>
 <br>
@@ -44,58 +48,76 @@ XMPP: 지원되지 않습니다.
 > 메시지를 보내려면 앱 서버에서 JSON 키-값 쌍으로 구성된 HTTP 헤더와 HTTP 본문을 포함하는 POST 요청을 만듭니다. 헤더 및 본문의 옵션에 관한 자세한 내용은 앱 서버 보내기 요청 작성을 참조
 
 ### HTTP v1의 장점
-액세스 토큰을 통한 보안 향상: HTTP v1 API는 OAuth2 보안 모델에 따라 수명이 짧은 액세스 토큰을 사용합니다. 액세스 토큰이 공개되는 경우에도 만료되기 전에 1시간 정도만 악의적으로 사용될 수 있습니다. 새로고침 토큰이 이전 API에서 사용하는 보안 키만큼 자주 전송되지 않으므로 캡처될 가능성이 매우 낮습니다.
+- 액세스 토큰을 통한 보안 향상
+  - HTTP v1 API는 OAuth2 보안 모델에 따라 수명이 짧은 액세스 토큰을 사용합니다. 액세스 토큰이 공개되는 경우에도 만료되기 전에 1시간 정도만 악의적으로 사용될 수 있습니다. 새로고침 토큰이 이전 API에서 사용하는 보안 키만큼 자주 전송되지 않으므로 캡처될 가능성이 매우 낮습니다.
 
-여러 플랫폼에서 보다 효율적인 메시지 맞춤설정: 메시지 본문의 경우 HTTP v1 API에 모든 대상 인스턴스에 전달되는 공용 키는 물론 여러 플랫폼의 메시지를 맞춤설정할 수 있는 플랫폼별 키가 있습니다. 이러한 키를 사용하면 메시지 하나로 여러 클라이언트 플랫폼에 약간 다른 페이로드를 전송하는 ‘재정의’를 만들 수 있습니다.
+- 여러 플랫폼에서 보다 효율적인 메시지 맞춤설정
+  - 메시지 본문의 경우 HTTP v1 API에 모든 대상 인스턴스에 전달되는 공용 키는 물론 여러 플랫폼의 메시지를 맞춤설정할 수 있는 플랫폼별 키가 있습니다. 이러한 키를 사용하면 메시지 하나로 여러 클라이언트 플랫폼에 약간 다른 페이로드를 전송하는 ‘재정의’를 만들 수 있습니다.
 
-새 클라이언트 플랫폼 버전을 위한 확장성 강화 및 미래 경쟁력 확보: HTTP v1 API는 iOS, Android, 웹에 제공되는 메시지 옵션을 완전히 지원합니다. 각 플랫폼마다 JSON 페이로드에 자체 정의된 블록이 있으므로 FCM에서 필요에 따라 새 버전과 새 플랫폼으로 API를 확장할 수 있습니다.
+- 새 클라이언트 플랫폼 버전을 위한 확장성 강화 및 미래 경쟁력 확보
+  - HTTP v1 API는 iOS, Android, 웹에 제공되는 메시지 옵션을 완전히 지원합니다. 각 플랫폼마다 JSON 페이로드에 자체 정의된 블록이 있으므로 FCM에서 필요에 따라 새 버전과 새 플랫폼으로 API를 확장할 수 있습니다.
+
+<br>
 
 ### HTTP v1 단점
-기기 그룹 메시징이나 멀티캐스트 메시징을 사용하는 앱은 다음 버전의 API를 기다리는 것이 좋습니다. HTTP v1은 이전 API의 해당 기능을 지원하지 않습니다.
-이제부터는 기존 프로토콜에 대한 언급은 피하겠습니다. 필요하다면 https://firebase.google.com/docs/cloud-messaging/server?hl=ko 참고하시길~
+- 기기 그룹 메시징이나 멀티캐스트 메시징을 사용하는 앱은 다음 버전의 API를 기다리는 것이 좋습니다.
+  - HTTP v1은 이전 API의 해당 기능을 지원하지 않습니다.
+  - [기존 프로토콜 참고](https://firebase.google.com/docs/cloud-messaging/server?hl=ko)
+
+<br>
 
 ### 보내기 요청 승인
-서비스 계정을 인증하고 Firebase 서비스에 액세스하도록 승인하려면 JSON 형식의 비공개 키 파일을 생성하고 이 키를 사용하여 수명이 짧은 OAuth 2.0 토큰을 발급받아야 합니다. 유효한 토큰을 확보했으면 원격 구성, FCM 등 다양한 Firebase 서비스의 요구사항에 따라 서버 요청에 토큰을 추가할 수 있습니다. 다른 서비스 계정을 사용하는 경우 편집자 또는 소유자 권한이 있어야 합니다.
+- 서비스 계정을 인증하고 Firebase 서비스에 액세스하도록 승인하려면 JSON 형식의 비공개 키 파일을 생성하고 이 키를 사용하여 수명이 짧은 OAuth 2.0 토큰을 발급받아야 합니다.
+- 유효한 토큰을 확보했으면 원격 구성, FCM 등 다양한 Firebase 서비스의 요구사항에 따라 서버 요청에 토큰을 추가할 수 있습니다.
+- 다른 서비스 계정을 사용하는 경우 편집자 또는 소유자 권한이 있어야 합니다.
+
+<br>
 
 ### 서비스 계정에 대한 비공개 키 파일을 생성하는 방법
-
-Firebase 콘솔에서 설정> 서비스 계정을 열기.
-새 비공개 키 생성을 클릭하고 키 생성을 클릭하여 확인.
-키가 들어있는 JSON 파일을 안전하게 저장.
-엑세스 토큰을 발급받기 위해서 비공개 키 Json은 필수입니다.
+1. Firebase 콘솔에서 설정> 서비스 계정을 열기.
+2. 새 비공개 키 생성을 클릭하고 키 생성을 클릭하여 확인.
+3. 키가 들어있는 JSON 파일을 안전하게 저장.
+4. 엑세스 토큰을 발급받기 위해서 비공개 키 Json은 필수입니다.
 
 ### 액세스 토큰을 발급받는 방법
+- 토큰을 발급받으려면 사용할 언어에 대한 Google API 클라이언트 라이브러리를 사용하여 다음과 같이 비공개 키 JSON 파일을 참조합니다.
 
-토큰을 발급받으려면 사용할 언어에 대한 Google API 클라이언트 라이브러리를 사용하여 다음과 같이 비공개 키 JSON 파일을 참조합니다.
+- 코드
+	```java
+	private static String getAccessToken() throws IOException  
+	{  
+		GoogleCredential googleCredential = GoogleCredential  
+			.fromStream(new  FileInputStream("service-account.json"))  
+			.createScoped(Arrays.asList(SCOPES));
+			
+		googleCredential.refreshToken();  
+		return googleCredential.getAccessToken();  
+	}
+	```
 
-private  static  String getAccessToken()  throws  IOException  
-{  
-	GoogleCredential googleCredential =  GoogleCredential  
-		.fromStream(new  FileInputStream("service-account.json"))  
-		.createScoped(Arrays.asList(SCOPES));
-		
-	googleCredential.refreshToken();  
-	return googleCredential.getAccessToken();  
-}
-service--account.json에 Firebase console에서 받은 json 파일을 입력합니다. 꽤나 헤매던 부분인데, SCOPES에 대한 언급을 찾을 수 없었습니다. 답은 아래 url을 참고하시면 됩니다. https://stackoverflow.com/questions/47325150/where-to-get-scopes-dependencies-for-java-for-new-firebase-cloud-message-api
+- service--account.json에 Firebase console에서 받은 json 파일을 입력합니다. 꽤나 헤매던 부분인데, SCOPES에 대한 언급을 찾을 수 없었습니다. 답은 아래 url을 참고하시면 됩니다. https://stackoverflow.com/questions/47325150/where-to-get-scopes-dependencies-for-java-for-new-firebase-cloud-message-api
 
-저는 아래 3개 url로 세팅했습니다.
+- 세팅 url
+  - https://www.googleapis.com/auth/firebase
+  - https://www.googleapis.com/auth/cloud-platform
+  - https://www.googleapis.com/auth/firebase.readonly
 
- https://www.googleapis.com/auth/firebase
- https://www.googleapis.com/auth/cloud-platform
- https://www.googleapis.com/auth/firebase.readonly
-AccessToken은 보안을 위해 주기적으로 바뀌는데, 위 소스를 적용하면 토큰이 만료되면 토큰 새로고침 메소드가 자동으로 호출되어 업데이트된 토큰이 발급됩니다.
+- AccessToken은 보안을 위해 주기적으로 바뀌는데, 위 소스를 적용하면 토큰이 만료되면 토큰 새로고침 메소드가 자동으로 호출되어 업데이트된 토큰이 발급됩니다.
 
-HTTP 요청 헤더에 액세스 토큰을 추가하는 방법
+<br>
 
-Authorization 헤더의 값으로 토큰을 Authorization: Bearer <access_token> 형식으로 추가합니다.
+### HTTP 요청 헤더에 액세스 토큰을 추가하는 방법
+- Authorization 헤더의 값으로 토큰을 Authorization: Bearer <access_token> 형식으로 추가합니다.
 
+```java
 URL url =  new URL(FCM_SEND_ENDPOINT);  
 HttpURLConnection httpURLConnection =  (HttpURLConnection) url.openConnection();  
 httpURLConnection.setRequestProperty("Authorization",  "Bearer "  + getAccessToken());  
 httpURLConnection.setRequestProperty("Content-Type",  "application/json; UTF-8");  
 return httpURLConnection;
-여기까지 잘 됐다면 보낼 준비가 끝난 상태입니다. 아직 프로그램을 구동시켜보지 못하겠지만, 다음 단계에서 curl을 이용하여 아래와 같이 테스트 해 볼 수 있습니다.
+```
+
+- 여기까지 잘 됐다면 보낼 준비가 끝난 상태입니다. 아직 프로그램을 구동시켜보지 못하겠지만, 다음 단계에서 curl을 이용하여 아래와 같이 테스트 해 볼 수 있습니다.
 
 앱 서버 보내기 요청 작성
 보내기 요청의 전송 유형
@@ -112,7 +134,7 @@ POST https://fcm.googleapis.com/v1/projects/[myproject-name]/messages:send
 자신의 endpoint url은 Firevase 콘솔의 일반 프로젝트 설정 탭에서 확인할 수 있습니다. 단지, 프로젝트 ID만 알고 있으면 됩니다.
 
 특정 기기에 메시지 전송 메세지 전송은 https POST로 전송합니다.
-
+```bash
 curl -X POST -H "Authorization: Bearer ya29.c.El7uBYyvqs1..." -H "Content-Type: application/json" -d '{
 "message":{
   "notification": {
@@ -122,6 +144,7 @@ curl -X POST -H "Authorization: Bearer ya29.c.El7uBYyvqs1..." -H "Content-Type: 
   "token": "fh1Ego6mhk0:APA91bF..."
   }
 }' "https://fcm.googleapis.com/v1/projects/my-fcm-project/messages:send"
+```
 Authorization에 access token을 넣어줍니다. message.token 은 클라이언트 사용자의 등록 토큰입니다. 만일 클라이언트가 준비되어 있다면 거기서 생성된 등록 토큰을 넣어주면 됩니다.
 
 정상적으로 전송되면 아래와 같은 응답이 오게 됩니다.
@@ -135,7 +158,7 @@ Authorization에 access token을 넣어줍니다. message.token 은 클라이언
 FCM Server Key를 받았다면 Access Token을 다음과 같이 받아올 수 있습니다. 헌데, 이 작업은 구글 API 클라이언트 라이브러리를 사용합니다.
 
 따라서 maven 의존성을 아래와 같이 설정해 줍니다.
-
+```xml
 <project>
   <dependencies>
     <dependency>
@@ -145,6 +168,7 @@ FCM Server Key를 받았다면 Access Token을 다음과 같이 받아올 수 �
     </dependency>  
   </dependencies>  
 </project>
+```
 access token 을 받아오기 위한 클래스를 아래와 같이 정의합니다.
 
 package com.mysite.fcm.manager;  
