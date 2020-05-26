@@ -135,7 +135,10 @@ POST https://fcm.googleapis.com/v1/projects/[myproject-name]/messages:send
 
 특정 기기에 메시지 전송 메세지 전송은 https POST로 전송합니다.
 ```bash
-curl -X POST -H "Authorization: Bearer ya29.c.El7uBYyvqs1..." -H "Content-Type: application/json" -d '{
+curl -X POST -H "Authorization: Bearer ya29.c.El7uBYyvqs1..." -H "Content-Type: application/json" -d
+```
+```json
+'{
 "message":{
   "notification": {
     "title": "FCM Message",
@@ -171,6 +174,7 @@ FCM Server Key를 받았다면 Access Token을 다음과 같이 받아올 수 �
 ```
 access token 을 받아오기 위한 클래스를 아래와 같이 정의합니다.
 
+```java
 package com.mysite.fcm.manager;  
   
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;  
@@ -197,10 +201,13 @@ public class AccessToken
 	 return googleCredential.getAccessToken();  
   }  
 }
+```
+
 Firebase 예제들은 dependency, import를 명시적으로 알려주지 않더군요. 이런거 찾다가 시간 다 보낸다는…. :sob:
 
 메세지를 보내기 위한 클래스를 작성합니다. 지저분한 코드는 나중에 정리.. 안되어 있으면 알아서 보시길~
 
+```java
 package com.mysite.fcm.manager;  
   
 import java.io.BufferedReader;  
@@ -310,9 +317,10 @@ public class Push
 		return http.getResponseMessage();  
 	}  
 }
+```
 
 이제 push main만 만들면 된다.
-
+```java
 public static void main(String[] args) throws IOException 
 {  
 	Push push = new Push();  
@@ -323,11 +331,12 @@ public static void main(String[] args) throws IOException
       e.printStackTrace();  
   }  
 }
+```
 실행해 보니 잘 가네요.
 
 문제 해결
 처음 보낼 때, 403 에러가 뜨면서 아래와 같이 리턴되는 경우가 있다.
-
+```json
 {
 	"error": {
 	"code": 403,
@@ -346,6 +355,7 @@ public static void main(String[] args) throws IOException
 		]
 	}
 }
+```
 아마도 FCM이 구글과 통합되면서 Google Api 인증을 받아야만 하는 것으로 보인다. Google API에서는 각 api별로 사용유무를 설정할 수 있는데, FCM은 기본값이 사용하지 않도록 되어 있어서 그런 것으로 보인다. 해당 링크로 들어가서 사용 버튼을 클릭해 주면 몇분 이내로 에러없이 보낼 수 있다.
 
 필자는 계정을 여러개 쓰고 있는데, 해당 프로젝트를 못찾아서 한참을 헤메고 있었다. Firebase 계정을 로그인 된 상태에서 해당 Url을 클릭하면 프로젝트 설정화면이 나타난다. 이런 뻘짓좀 않했으면.. :sob:
