@@ -356,9 +356,6 @@ public static void main(String[] args) throws IOException
 	}
 }
 ```
-아마도 FCM이 구글과 통합되면서 Google Api 인증을 받아야만 하는 것으로 보인다. Google API에서는 각 api별로 사용유무를 설정할 수 있는데, FCM은 기본값이 사용하지 않도록 되어 있어서 그런 것으로 보인다. 해당 링크로 들어가서 사용 버튼을 클릭해 주면 몇분 이내로 에러없이 보낼 수 있다.
-
-필자는 계정을 여러개 쓰고 있는데, 해당 프로젝트를 못찾아서 한참을 헤메고 있었다. Firebase 계정을 로그인 된 상태에서 해당 Url을 클릭하면 프로젝트 설정화면이 나타난다. 이런 뻘짓좀 않했으면.. :sob:
 
 참고
 https://firebase.google.com/docs/cloud-messaging/?hl=ko
